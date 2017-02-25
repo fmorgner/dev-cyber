@@ -39,12 +39,19 @@ int cyber_file_open(struct inode * inode, struct file * file)
 
 ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, loff_t * offset)
 {
-	int const cybers = (size > PAGE_SIZE ? PAGE_SIZE : size) / 8;
-	if(copy_to_user(buffer, cyberSpace, cybers * 8))
+	int const cyberChunks = (size + PAGE_SIZE - 1) / PAGE_SIZE;
+	int const cybersPerChunk = (size > PAGE_SIZE ? PAGE_SIZE : size) / 8;
+	int remainingChunks = cyberChunks;
+
+	for(; remainingChunks > 0; --remainingChunks)
 	{
-		return -EFAULT;
+		if(copy_to_user(buffer, cyberSpace, cybersPerChunk * 8))
+		{
+			return -EFAULT;
+		}
 	}
-	return cybers * 8;
+
+	return cyberChunks * cybersPerChunk * 8;
 }
 
 ssize_t cyber_file_write(struct file * file, char __user const * buffer, size_t size, loff_t * offset)

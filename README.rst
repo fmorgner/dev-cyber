@@ -12,7 +12,7 @@ Purism Librem 13):
 
 - High throughput access to **CYBER** space
 
-    - Up-to 4.2 Gibibyte per second read speed
+    - Up-to 6.66 Gibibyte per second read speed
     - Up-to 12 Gibibyte per second write speed
 
 - Unlimited storage
