@@ -1,7 +1,7 @@
 /dev/cyber
 ==========
 
-The device we do not need, but the one we deserve.
+Not the device we need, but the one we deserve.
 
 Features
 --------
