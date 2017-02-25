@@ -41,11 +41,11 @@ ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, l
 {
 	int const cyberChunks = (size + PAGE_SIZE - 1) / PAGE_SIZE;
 	int const cybersPerChunk = (size > PAGE_SIZE ? PAGE_SIZE : size) / 8;
-	int remainingChunks = cyberChunks;
+	int copiedCybers = 0;
 
-	for(; remainingChunks > 0; --remainingChunks)
+	for(; copiedCybers < cyberChunks; ++copiedCybers)
 	{
-		if(copy_to_user(buffer, cyberSpace, cybersPerChunk * 8))
+		if(copy_to_user(buffer + copiedCybers * PAGE_SIZE, cyberSpace, cybersPerChunk * 8))
 		{
 			return -EFAULT;
 		}
