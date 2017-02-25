@@ -7,3 +7,4 @@ people who contributed to this project:
 - `Raphael Das Gupta <https://github.com/das-g>`_ (@das-g)
 
   - Fix formatting of the lists in README.rst
+  - Fix the catchphrase
