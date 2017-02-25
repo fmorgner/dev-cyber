@@ -12,22 +12,22 @@ Purism Librem 13):
 
 - High throughput access to **CYBER** space
 
-    - Up-to 6.66 Gibibyte per second read speed
-    - Up-to 12 Gibibyte per second write speed
+  - Up-to 6.66 Gibibyte per second read speed
+  - Up-to 12 Gibibyte per second write speed
 
 - Unlimited storage
 
-    - Uses brand spanking new **Condensed Di-hydrogen-monoxide Numbering** (CDN)
-      storage.
-    - Typically requires only 4kB of plain old RAM to instantiate **CYBER**
-      space
-    - Does **not** require Internet connectivity
+  - Uses brand spanking new **Condensed Di-hydrogen-monoxide Numbering** (CDN)
+    storage.
+  - Typically requires only 4kB of plain old RAM to instantiate **CYBER**
+    space
+  - Does **not** require Internet connectivity
 
 - NSA-level security
 
-    - **Real-Time Flux Masking** (RTFM) provides secure privilege separation
-    - An average of 32768-Bit **CYBER Space Splitting** (CSS) encoding to
-      protect your data
+  - **Real-Time Flux Masking** (RTFM) provides secure privilege separation
+  - An average of 32768-Bit **CYBER Space Splitting** (CSS) encoding to
+    protect your data
 
 - High Availability through **Inverse Nodal Tachyon Equilibrium Layering**
   (INTEL)
@@ -112,9 +112,9 @@ world consider one or more of the following options:
 
 - Stop using the word/prefix CYBER!
 
-    - Tell your friends to stop too!
-    - Tell you colleagues to stop also!
-    - Ban it from your company!
+  - Tell your friends to stop too!
+  - Tell you colleagues to stop also!
+  - Ban it from your company!
 
 - Spread the word about this module. It would be great if we could manage to
   convince people to actually use it. Maybe the will stop CYBERing around when
@@ -122,23 +122,23 @@ world consider one or more of the following options:
 
 - Implement new features!
 
-    - Having a block device would be **really** cool!
-    - Asynchronous I/O would also **rock**!
+  - Having a block device would be **really** cool!
+  - Asynchronous I/O would also **rock**!
 
 - Improve this README
 
-    - Add more examples!
-    - Fix typos (VIM kinda sucks at highlighting typos is already highlighted
-      text)!
-    - **CYBER** it up even more!
+  - Add more examples!
+  - Fix typos (VIM kinda sucks at highlighting typos is already highlighted
+    text)!
+  - **CYBER** it up even more!
 
 - Or at least, buy me a beer (technically does not fight **CYBER**, but it helps
   alleviate the pain) using
   `BTC <bitcoin:17UjLY7p9hKHJZ7XJKFrNoUyNkDEtPMdSV?label=cyber_beer>`_ or
   `LTC <litecoin:LLi8TSBbwAoeigS4SuzBwa8hcYDkBDxutW?label=cyber_beer>`_
 
-    - BTC address (because github...): 17UjLY7p9hKHJZ7XJKFrNoUyNkDEtPMdSV
-    - LTC address (because github...): LLi8TSBbwAoeigS4SuzBwa8hcYDkBDxutW
+  - BTC address (because github...): 17UjLY7p9hKHJZ7XJKFrNoUyNkDEtPMdSV
+  - LTC address (because github...): LLi8TSBbwAoeigS4SuzBwa8hcYDkBDxutW
 
 DISCLAIMER
 ----------
