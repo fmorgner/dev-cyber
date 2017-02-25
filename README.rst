@@ -128,7 +128,7 @@ world consider one or more of the following options:
 - Improve this README
 
   - Add more examples!
-  - Fix typos (VIM kinda sucks at highlighting typos is already highlighted
+  - Fix typos (VIM kinda sucks at highlighting typos in already highlighted
     text)!
   - **CYBER** it up even more!
 
