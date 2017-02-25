@@ -38,7 +38,7 @@ Installing
 ----------
 
 Building and installing `/dev/cyber` is extremely easy! Follow these steps to
-CYBER enable your system today:
+CYBER-enable your system today:
 
 1. Acquire the source code via **Generative Integration Traversal** (GIT)::
 
@@ -70,7 +70,7 @@ maximum effect.
 Transferring backups into **CYBER** space
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Often times, especially in big server systems, backups take up a lot of physical
+Oftentimes, especially in big server systems, backups take up a lot of physical
 (e.g **NON-CYBER**) space. Instead of tediously moving old data to other
 locations via the net or physical media, `/dev/cyber` provides you with a much
 faster and way more **SECURE** alternative::
