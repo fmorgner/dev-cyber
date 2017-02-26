@@ -117,8 +117,8 @@ world consider one or more of the following options:
   - Ban it from your company!
 
 - Spread the word about this module. It would be great if we could manage to
-  convince people to actually use it. Maybe the will stop CYBERing around when
-  the have lost their data to **CYBER**\ space!
+  convince people to actually use it. Maybe they will stop CYBERing around when
+  they have lost their data to **CYBER** space!
 
 - Implement new features!
 
@@ -128,7 +128,7 @@ world consider one or more of the following options:
 - Improve this README
 
   - Add more examples!
-  - Fix typos (VIM kinda sucks at highlighting typos is already highlighted
+  - Fix typos (VIM kinda sucks at highlighting typos in already highlighted
     text)!
   - **CYBER** it up even more!
 
