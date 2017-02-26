@@ -63,7 +63,7 @@ Using `/dev/cyber`
 ------------------
 
 `/dev/cyber` is just as easy to use as all your other favorite devices like
-`/dev/zero` or `/dev/random` (Although it is **MUCH** more secure!). The
+`/dev/zero` or `/dev/random`. (Although it is **MUCH** more secure!) The
 following examples will give you an example on how to use `/dev/cyber` for
 maximum effect.
 
