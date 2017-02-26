@@ -10,23 +10,23 @@ Features
 to provide you with the following features (all benchmarks have been done on a
 Purism Librem 13):
 
-- High throughput access to **CYBER** space
+- High throughput access to **CYBER**\ space
 
-  - Up-to 6.66 Gibibyte per second read speed
-  - Up-to 12 Gibibyte per second write speed
+  - Up to 6.66 Gibibyte per second read speed
+  - Up to 12 Gibibyte per second write speed
 
 - Unlimited storage
 
   - Uses brand spanking new **Condensed Di-hydrogen-monoxide Numbering** (CDN)
     storage.
-  - Typically requires only 4kB of plain old RAM to instantiate **CYBER**
+  - Typically requires only 4kB of plain old RAM to instantiate **CYBER**\
     space
   - Does **not** require Internet connectivity
 
 - NSA-level security
 
   - **Real-Time Flux Masking** (RTFM) provides secure privilege separation
-  - An average of 32768-Bit **CYBER Space Splitting** (CSS) encoding to
+  - An average of 32768-Bit **CYBERSpace Splitting** (CSS) encoding to
     protect your data
 
 - High Availability through **Inverse Nodal Tachyon Equilibrium Layering**
@@ -38,7 +38,7 @@ Installing
 ----------
 
 Building and installing `/dev/cyber` is extremely easy! Follow these steps to
-CYBER enable your system today:
+CYBER-enable your system today:
 
 1. Acquire the source code via **Generative Integration Traversal** (GIT)::
 
@@ -67,24 +67,24 @@ Using `/dev/cyber`
 following examples will give you an example on how to use `/dev/cyber` for
 maximum effect.
 
-Transferring backups into **CYBER** space
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Transferring backups into **CYBER**\ space
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Often times, especially in big server systems, backups take up a lot of physical
+Oftentimes, especially in big server systems, backups take up a lot of physical
 (e.g **NON-CYBER**) space. Instead of tediously moving old data to other
 locations via the net or physical media, `/dev/cyber` provides you with a much
 faster and way more **SECURE** alternative::
 
     $ tar cf - /your_backup_storage_location > /dev/cyber
 
-Transferring your backups to **CYBER** space is fast and easy!
+Transferring your backups to **CYBER**\ space is fast and easy!
 
 Seeding random number generators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You have probably heard of numerous issues concerning initialization of secure
 random number generators. What if `/dev/random` just has bad entropy? Fear no
-more! `/dev/cyber` supports **CYBER Space Splitting**, a state-of-the-art
+more! `/dev/cyber` supports **CYBERSpace Splitting**, a state-of-the-art
 **Entropy Sourcing Mechanism** (ESM). By simply reading all your entropy from
 `/dev/cyber`, you are guaranteed to never run out of first-class randomness!
 
@@ -118,7 +118,7 @@ world consider one or more of the following options:
 
 - Spread the word about this module. It would be great if we could manage to
   convince people to actually use it. Maybe the will stop CYBERing around when
-  the have lost their data to **CYBER** space!
+  the have lost their data to **CYBER**\ space!
 
 - Implement new features!
 
