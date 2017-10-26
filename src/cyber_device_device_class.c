@@ -25,17 +25,17 @@
 
 extern struct cyber_device device;
 
-ssize_t available_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
+static ssize_t available_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
 	{
 	return sprintf(buffer, "infinite\n");
 	}
-CLASS_ATTR_RO(available);
+static CLASS_ATTR_RO(available);
 
-ssize_t storage_technology_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
+static ssize_t storage_technology_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
 	{
 	return sprintf(buffer, "condensed di-hydrogen-monoxide\n");
 	}
-CLASS_ATTR_RO(storage_technology);
+static CLASS_ATTR_RO(storage_technology);
 
 static int cyber_device_handle_uevent(struct device * kernelDevice, struct kobj_uevent_env * environment)
 {

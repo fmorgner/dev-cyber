@@ -21,23 +21,31 @@
 #include <asm/uaccess.h>
 #include <linux/module.h>
 
-struct file_operations const cyber_operations = {
-	.owner = THIS_MODULE,
-	.open = cyber_file_open,
-	.read = cyber_file_read,
-	.write = cyber_file_write,
-	.release = cyber_file_close,
-};
-
 static char const * cyberPattern = "!CYBER! ";
 static char * cyberSpace;
 
-int cyber_file_open(struct inode * inode, struct file * file)
+/**
+ * Handler for CYBER device open events
+ *
+ * @param inode The kernel inode associated with the CYBER device
+ * @param file The kernel file associated with the CYBER device
+ * @return zero on success, non-zero otherwise
+ */
+static int cyber_file_open(struct inode * inode, struct file * file)
 {
 	return 0;
 }
 
-ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, loff_t * offset)
+/**
+ * Handler for CYBER device read events
+ *
+ * @param file The kernel file associated with the CYBER device
+ * @param buffer The user-space target buffer for all the CYBER
+ * @param size The size of the user-space buffer
+ * @param offset The offset into the CYBER
+ * @return The number of bytes that were read, negative on error
+ */
+static ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, loff_t * offset)
 {
 	int const cyberChunks = (size + PAGE_SIZE - 1) / PAGE_SIZE;
 	int const cybersPerChunk = (size > PAGE_SIZE ? PAGE_SIZE : size) / 8;
@@ -54,15 +62,39 @@ ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, l
 	return cyberChunks * cybersPerChunk * 8;
 }
 
-ssize_t cyber_file_write(struct file * file, char __user const * buffer, size_t size, loff_t * offset)
+/**
+ * Handler for CYBER device write events
+ *
+ * @param file The kernel file associated with the CYBER device
+ * @param buffer The user-space source buffer for all the CYBER
+ * @param size The size of the user-space buffer
+ * @param offset The offset into the CYBER
+ * @param The number of bytes that were written, negative on error
+ */
+static ssize_t cyber_file_write(struct file * file, char __user const * buffer, size_t size, loff_t * offset)
 {
 	return size;
 }
 
-int cyber_file_close(struct inode * inode, struct file * file)
+/**
+ * Handler for CYBER device close events
+ *
+ * @param inode The kernel inode associated with the CYBER device
+ * @param file The kernel file associated with the CYBER device
+ * @param zero on success, non-zero otherwise
+ */
+static int cyber_file_close(struct inode * inode, struct file * file)
 {
 	return 0;
 }
+
+struct file_operations const cyber_operations = {
+	.owner = THIS_MODULE,
+	.open = cyber_file_open,
+	.read = cyber_file_read,
+	.write = cyber_file_write,
+	.release = cyber_file_close,
+};
 
 int cyber_file_init(void)
 {

@@ -32,44 +32,4 @@ int cyber_file_init(void);
  */
 void cyber_file_shutdown(void);
 
-/**
- * Handler for CYBER device open events
- *
- * @param inode The kernel inode associated with the CYBER device
- * @param file The kernel file associated with the CYBER device
- * @return zero on success, non-zero otherwise
- */
-int cyber_file_open(struct inode * inode, struct file * file);
-
-/**
- * Handler for CYBER device read events
- *
- * @param file The kernel file associated with the CYBER device
- * @param buffer The user-space target buffer for all the CYBER
- * @param size The size of the user-space buffer
- * @param offset The offset into the CYBER
- * @return The number of bytes that were read, negative on error
- */
-ssize_t cyber_file_read(struct file * file, char * buffer, size_t size, loff_t * offset);
-
-/**
- * Handler for CYBER device write events
- *
- * @param file The kernel file associated with the CYBER device
- * @param buffer The user-space source buffer for all the CYBER
- * @param size The size of the user-space buffer
- * @param offset The offset into the CYBER
- * @param The number of bytes that were written, negative on error
- */
-ssize_t cyber_file_write(struct file * file, char const * buffer, size_t size, loff_t * offset);
-
-/**
- * Handler for CYBER device close events
- *
- * @param inode The kernel inode associated with the CYBER device
- * @param file The kernel file associated with the CYBER device
- * @param zero on success, non-zero otherwise
- */
-int cyber_file_close(struct inode * inode, struct file * file);
-
 #endif
