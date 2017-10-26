@@ -1,3 +1,8 @@
+2017-10-26  Felix Morgner <felix.morgner@gmail.com>
+
+	* cyber device class: switch to newer Linux device class API
+	* cyber makefile: provide install target
+
 2017-02-25  Felix Morgner <felix.morgner@gmail.com>
 
   * cyber: initial implementation
