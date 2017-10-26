@@ -8,11 +8,11 @@
  *
  * This program is distributed in the hope it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * FITNESS FOR A PARTICULAR PURPOSE.	See the GNU General Public License for
  * more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program.  If not, see <http://www.gnu.org/licenses/>.
+ * this program.	If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "cyber.h"
@@ -25,24 +25,17 @@
 
 extern struct cyber_device device;
 
-static ssize_t cyber_device_show_attribute(struct class * class, struct class_attribute * attribute,  char __user * buffer)
-{
-	char const * const name = attribute->attr.name;
-
-	if(!strcmp(name, "available"))
+ssize_t available_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
 	{
-		return sprintf(buffer, "infinite\n");
+	return sprintf(buffer, "infinite\n");
 	}
-	else if(!strcmp(name, "storage_technology"))
+CLASS_ATTR_RO(available);
+
+ssize_t storage_technology_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
 	{
-		return sprintf(buffer, "condensed di-hydrogen-monoxide\n");
+	return sprintf(buffer, "condensed di-hydrogen-monoxide\n");
 	}
-
-	return -EINVAL;
-}
-
-CLASS_ATTR(available, 0444, cyber_device_show_attribute, NULL);
-CLASS_ATTR(storage_technology, 0444, cyber_device_show_attribute, NULL);
+CLASS_ATTR_RO(storage_technology);
 
 static int cyber_device_handle_uevent(struct device * kernelDevice, struct kobj_uevent_env * environment)
 {
@@ -63,7 +56,7 @@ int cyber_device_init_device_class(void)
 	}
 
 	if((error = class_create_file(&device.class, &class_attr_available)) ||
-	   (error = class_create_file(&device.class, &class_attr_storage_technology)))
+		 (error = class_create_file(&device.class, &class_attr_storage_technology)))
 	{
 		printk(KERN_ALERT DEV_NAME ": Failed to register sysfs CYBER attributes!\n");
 	}
