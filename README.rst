@@ -1,10 +1,11 @@
+##########
 /dev/cyber
-==========
+##########
 
 Not the device we need, but the one we deserve.
 
 Features
---------
+========
 
 `/dev/cyber` uses a bleeding-edge architecture and state-of-the-art technologies
 to provide you with the following features (all benchmarks have been done on a
@@ -35,7 +36,10 @@ Purism Librem 13):
 - Minute system impact thanks to **Correlative Cloud Compression** (CCC)
 
 Installing
-----------
+==========
+
+From Source
+-----------
 
 Building and installing `/dev/cyber` is extremely easy! Follow these steps to
 CYBER-enable your system today:
@@ -59,8 +63,17 @@ CYBER-enable your system today:
 
 5. **PROFIT!** (through unlimited CYBER)
 
+Distribution Packages
+---------------------
+
+Arch Linux
+~~~~~~~~~~
+
+`/dev/cyber` is available in the AUR. Just use your favorite AUR package
+installer to install `cyber-dkms` and get CYBER-ified!
+
 Using `/dev/cyber`
-------------------
+==================
 
 `/dev/cyber` is just as easy to use as all your other favorite devices like
 `/dev/zero` or `/dev/random`. (Although it is **MUCH** more secure!) The
@@ -68,7 +81,7 @@ following examples will give you an example on how to use `/dev/cyber` for
 maximum effect.
 
 Transferring backups into **CYBER**\ space
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 Oftentimes, especially in big server systems, backups take up a lot of physical
 (e.g **NON-CYBER**) space. Instead of tediously moving old data to other
@@ -80,7 +93,7 @@ faster and way more **SECURE** alternative::
 Transferring your backups to **CYBER**\ space is fast and easy!
 
 Seeding random number generators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 You have probably heard of numerous issues concerning initialization of secure
 random number generators. What if `/dev/random` just has bad entropy? Fear no
@@ -89,7 +102,7 @@ more! `/dev/cyber` supports **CYBERSpace Splitting**, a state-of-the-art
 `/dev/cyber`, you are guaranteed to never run out of first-class randomness!
 
 Statistics
-----------
+==========
 
 As is the case with all good Linux kernel modules, `/dev/cyber` exports
 statistics and configuration information via the **Stabilized Yarn Segregation
@@ -103,7 +116,7 @@ amount of **CYBER** available at the moment, you can use these commands::
     $ cat /sys/class/cyber/storage_technology
 
 Contributing
-------------
+============
 
 This project is the result of all the pain induced by all the
 "cyber"-thingamajigging and buzzword-flinging that is going on in the media
@@ -141,7 +154,7 @@ world consider one or more of the following options:
   - LTC address (because github...): LLi8TSBbwAoeigS4SuzBwa8hcYDkBDxutW
 
 DISCLAIMER
-----------
+==========
 
 I have looked through the code a couple of times, but this is my first-ever
 Linux kernel module. It should be fine, since it pretty much is little more than
