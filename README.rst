@@ -55,7 +55,7 @@ CYBER-enable your system today:
 4. Load the module through **Systematic Unity Dissolution Orchestration**
    combined with **Instant Naturalistic System MODification** (SUDO INSMOD)::
 
-   $ sudo insmod cyber.ko
+   $ sudo -E make install
 
 5. **PROFIT!** (through unlimited CYBER)
 
