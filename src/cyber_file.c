@@ -20,6 +20,8 @@
 
 #include <asm/uaccess.h>
 #include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/mm.h>
 
 static char const * cyberPattern = "!CYBER! ";
 static char * cyberSpace;
@@ -62,6 +64,17 @@ static ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t 
 	return cyberChunks * cybersPerChunk * 8;
 }
 
+static int cyber_file_mmap(struct file * file, struct vm_area_struct * vma)
+{
+	ssize_t vmaSize = vma->vm_end - vma->vm_start;
+	ssize_t offset = 0;
+	for(; vmaSize; vmaSize -= PAGE_SIZE, ++offset)
+	{
+		vm_insert_page(vma, vma->vm_start + offset * PAGE_SIZE, virt_to_page(cyberSpace));
+	}
+	return 0;
+}
+
 /**
  * Handler for CYBER device write events
  *
@@ -94,6 +107,7 @@ struct file_operations const cyber_operations = {
 	.read = cyber_file_read,
 	.write = cyber_file_write,
 	.release = cyber_file_close,
+	.mmap = cyber_file_mmap,
 };
 
 int cyber_file_init(void)
