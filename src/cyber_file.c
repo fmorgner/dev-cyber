@@ -22,8 +22,14 @@
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/mm.h>
+#include <linux/moduleparam.h>
 
-static char const * cyberPattern = "!CYBER! ";
+static unsigned char separator = ' ';
+module_param(separator, byte, S_IRUGO);
+MODULE_PARM_DESC(separator, "The string to separate the CYBER by");
+
+
+static char cyberPattern[] = {'!', 'C', 'Y', 'B', 'E', 'R', '!', ' '};
 static char * cyberSpace;
 
 /**
@@ -122,6 +128,7 @@ int cyber_file_init(void)
 		return ENOMEM;
 	}
 
+	cyberPattern[7] = separator;
 	for(i = 0; i < PAGE_SIZE; ++i)
 	{
 		cyberSpace[i] = cyberPattern[i % 8];
