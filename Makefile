@@ -10,12 +10,16 @@ cyber-objs :=	src/cyber_device.o \
 							src/cyber_lifecycle.o \
 							src/cyber.o
 
+ifeq ($(KERNEL_VERSION),)
+KERNEL_VERSION=$(shell uname -r)
+endif
+
 all:
-	make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules
+	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules
 
 install:
-	make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules_install
+	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules_install
 	depmod -a
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) clean
+	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) clean
