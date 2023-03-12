@@ -1,3 +1,7 @@
+2023-03-12  Felix Morgner <felix.morgner@gmail.com>
+
+	* cyber device class: fix compilation on Linux >= 6.2.0
+
 2017-10-26  Felix Morgner <felix.morgner@gmail.com>
 
 	* cyber device class: switch to newer Linux device class API

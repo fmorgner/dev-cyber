@@ -22,6 +22,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/string.h>
+#include <linux/version.h>
 
 extern struct cyber_device device;
 
@@ -37,7 +38,11 @@ static ssize_t storage_technology_show(struct class * class, struct class_attrib
 	}
 static CLASS_ATTR_RO(storage_technology);
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,2,0)
+static int cyber_device_handle_uevent(struct device const * kernelDevice, struct kobj_uevent_env * environment)
+#else
 static int cyber_device_handle_uevent(struct device * kernelDevice, struct kobj_uevent_env * environment)
+#endif
 {
 	add_uevent_var(environment, "DEVMODE=%#o", 0666);
 	return 0;
