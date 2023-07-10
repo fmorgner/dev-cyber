@@ -26,13 +26,21 @@
 
 extern struct cyber_device device;
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,4,0)
+static ssize_t available_show(struct class const * class, struct class_attribute const * attribute, char * __user buffer)
+#else
 static ssize_t available_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
+#endif
 	{
 	return sprintf(buffer, "infinite\n");
 	}
 static CLASS_ATTR_RO(available);
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,4,0)
+static ssize_t storage_technology_show(struct class const * class, struct class_attribute const * attribute, char * __user buffer)
+#else
 static ssize_t storage_technology_show(struct class * class, struct class_attribute * attribute, char * __user buffer)
+#endif
 	{
 	return sprintf(buffer, "condensed di-hydrogen-monoxide\n");
 	}
@@ -53,7 +61,9 @@ int cyber_device_init_device_class(void)
 	int error = 0;
 
 	device.class.name = CLS_NAME;
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6,4,0)
 	device.class.owner = THIS_MODULE;
+#endif
 	device.class.dev_uevent = cyber_device_handle_uevent;
 	if((error = class_register(&device.class)))
 	{
