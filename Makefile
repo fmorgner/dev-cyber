@@ -1,25 +1,17 @@
-EXTRA_CFLAGS := -I$(src)/include
+ifneq ($(KERNELRELEASE),)
+include Kbuild
+else
+KDIR ?= /lib/modules/`uname -r`/build
 
-obj-m := cyber.o
-
-cyber-objs :=	src/cyber_device.o \
-							src/cyber_device_character_device.o \
-							src/cyber_device_device_class.o \
-							src/cyber_device_kernel_device.o \
-							src/cyber_file.o \
-							src/cyber_lifecycle.o \
-							src/cyber.o
-
-ifeq ($(KERNEL_VERSION),)
-KERNEL_VERSION=$(shell uname -r)
-endif
-
-all:
-	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules
-
-install:
-	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules_install
-	depmod -a
+modules:
+	@$(MAKE) -C $(KDIR) M=$$PWD modules
 
 clean:
-	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) clean
+	@$(MAKE) -C $(KDIR) M=$$PWD clean
+
+install:
+	@$(MAKE) -C $(KDIR) M=$$PWD modules_install
+	@depmod -a
+
+endif
+
