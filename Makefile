@@ -14,12 +14,17 @@ ifeq ($(KERNEL_VERSION),)
 KERNEL_VERSION=$(shell uname -r)
 endif
 
-all:
+all: check
 	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules
 
-install:
+install: check
 	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) modules_install
 	depmod -a
 
 clean:
 	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) clean
+
+check:
+ifeq ($(wildcard /lib/modules/$(KERNEL_VERSION)/build/.),)
+	@echo "did you install the \"linux-headers\" package?"
+endif
