@@ -25,7 +25,7 @@
  *
  * @return zero on success, non-zero otherwise
  */
-int cyber_file_init(void);
+int cyber_file_init(struct file_operations * file_ops);
 
 /**
  * Shutdown the CYBER file

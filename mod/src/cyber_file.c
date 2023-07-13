@@ -17,6 +17,7 @@
 
 #include "cyber.h"
 #include "cyber_file.h"
+#include "cyber_device.h"
 
 #include <asm/uaccess.h>
 #include <linux/module.h>
@@ -28,10 +29,6 @@ static unsigned char separator = ' ';
 module_param(separator, byte, S_IRUGO);
 MODULE_PARM_DESC(separator, "The string to separate the CYBER by");
 
-
-static char cyberPattern[] = {'!', 'C', 'Y', 'B', 'E', 'R', '!', ' '};
-static char * cyberSpace;
-
 /**
  * Handler for CYBER device open events
  *
@@ -39,8 +36,36 @@ static char * cyberSpace;
  * @param file The kernel file associated with the CYBER device
  * @return zero on success, non-zero otherwise
  */
-static int cyber_file_open(struct inode * inode, struct file * file)
+static int cyber_file_open(struct inode *inode, struct file *file)
 {
+	char pattern[] = {'!', 'C', 'Y', 'B', 'E', 'R', '!', ' '};
+
+	printk(KERN_DEBUG DEV_NAME ": Opening CYBER space\n");
+
+	if(!(file->private_data = (char *)__get_free_page(GFP_KERNEL)))
+	{
+		return -ENOMEM;
+	}
+
+	pattern[sizeof(pattern) - 1] = separator;
+	for (int byte = 0; byte < PAGE_SIZE; ++byte)
+	{
+		((char *)file->private_data)[byte] = pattern[byte % 8];
+	}
+
+	return 0;
+}
+
+/**
+ * Handler for CYBER device close events
+ *
+ * @param inode The kernel inode associated with the CYBER device
+ * @param file The kernel file associated with the CYBER device
+ * @param zero on success, non-zero otherwise
+ */
+static int cyber_file_close(struct inode *inode, struct file *file)
+{
+	free_page((unsigned long)file->private_data);
 	return 0;
 }
 
@@ -53,15 +78,16 @@ static int cyber_file_open(struct inode * inode, struct file * file)
  * @param offset The offset into the CYBER
  * @return The number of bytes that were read, negative on error
  */
-static ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t size, loff_t * offset)
+static ssize_t cyber_file_read(struct file *file, char __user *buffer, size_t size, loff_t *offset)
 {
 	int const cyberChunks = (size + PAGE_SIZE - 1) / PAGE_SIZE;
 	int const cybersPerChunk = (size > PAGE_SIZE ? PAGE_SIZE : size) / 8;
 	int copiedCybers = 0;
+	char * cyberSpace = file->private_data;
 
-	for(; copiedCybers < cyberChunks; ++copiedCybers)
+	for (; copiedCybers < cyberChunks; ++copiedCybers)
 	{
-		if(raw_copy_to_user(buffer + copiedCybers * PAGE_SIZE, cyberSpace, cybersPerChunk * 8))
+		if (raw_copy_to_user(buffer + copiedCybers * PAGE_SIZE, cyberSpace, cybersPerChunk * 8))
 		{
 			return -EFAULT;
 		}
@@ -70,11 +96,13 @@ static ssize_t cyber_file_read(struct file * file, char __user * buffer, size_t 
 	return cyberChunks * cybersPerChunk * 8;
 }
 
-static int cyber_file_mmap(struct file * file, struct vm_area_struct * vma)
+static int cyber_file_mmap(struct file *file, struct vm_area_struct *vma)
 {
 	ssize_t vmaSize = vma->vm_end - vma->vm_start;
 	ssize_t offset = 0;
-	for(; vmaSize; vmaSize -= PAGE_SIZE, ++offset)
+	char * cyberSpace = file->private_data;
+
+	for (; vmaSize; vmaSize -= PAGE_SIZE, ++offset)
 	{
 		vm_insert_page(vma, vma->vm_start + offset * PAGE_SIZE, virt_to_page(cyberSpace));
 	}
@@ -90,49 +118,20 @@ static int cyber_file_mmap(struct file * file, struct vm_area_struct * vma)
  * @param offset The offset into the CYBER
  * @param The number of bytes that were written, negative on error
  */
-static ssize_t cyber_file_write(struct file * file, char __user const * buffer, size_t size, loff_t * offset)
+static ssize_t cyber_file_write(struct file *file, char __user const *buffer, size_t size, loff_t *offset)
 {
 	return size;
 }
 
-/**
- * Handler for CYBER device close events
- *
- * @param inode The kernel inode associated with the CYBER device
- * @param file The kernel file associated with the CYBER device
- * @param zero on success, non-zero otherwise
- */
-static int cyber_file_close(struct inode * inode, struct file * file)
+int cyber_file_init(struct file_operations *file_ops)
 {
-	return 0;
-}
-
-struct file_operations const cyber_operations = {
-	.owner = THIS_MODULE,
-	.open = cyber_file_open,
-	.read = cyber_file_read,
-	.write = cyber_file_write,
-	.release = cyber_file_close,
-	.mmap = cyber_file_mmap,
-};
-
-int cyber_file_init(void)
-{
-	int i;
-
 	printk(KERN_INFO DEV_NAME ": Initializing CYBER space\n");
-	cyberSpace = (char *)__get_free_page(GFP_KERNEL);
-	if(!cyberSpace)
-	{
-		printk(KERN_ALERT DEV_NAME ": Out of CYBER space!\n");
-		return ENOMEM;
-	}
 
-	cyberPattern[7] = separator;
-	for(i = 0; i < PAGE_SIZE; ++i)
-	{
-		cyberSpace[i] = cyberPattern[i % 8];
-	}
+	file_ops->open = cyber_file_open;
+	file_ops->read = cyber_file_read;
+	file_ops->write = cyber_file_write;
+	file_ops->release = cyber_file_close;
+	file_ops->mmap = cyber_file_mmap;
 
 	return 0;
 }
@@ -140,5 +139,4 @@ int cyber_file_init(void)
 void cyber_file_shutdown(void)
 {
 	printk(KERN_INFO DEV_NAME ": Releasing CYBER space\n");
-	free_page((unsigned long)cyberSpace);
 }

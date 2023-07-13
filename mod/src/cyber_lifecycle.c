@@ -20,17 +20,21 @@
 #include "cyber_lifecycle.h"
 
 #include <linux/module.h>
+#include <linux/fs.h>
+
+cyber_device device = {};
+struct file_operations file_ops = {.owner = THIS_MODULE};
 
 int cyber_driver_init(void)
 {
 	int error;
 
-	if((error = cyber_file_init()))
+	if((error = cyber_file_init(&file_ops)))
 	{
 		return error;
 	}
 
-	if((error = cyber_device_init()) < 0)
+	if((error = cyber_device_init(&device, &file_ops)) < 0)
 	{
 		cyber_file_shutdown();
 		return error;
@@ -41,7 +45,7 @@ int cyber_driver_init(void)
 
 void cyber_driver_exit(void)
 {
-	cyber_device_shutdown();
+	cyber_device_shutdown(&device);
 	cyber_file_shutdown();
 }
 

@@ -20,81 +20,173 @@
 
 #include <linux/device.h>
 #include <linux/kernel.h>
+#include <linux/kobject.h>
 #include <linux/module.h>
 #include <linux/string.h>
+#include <linux/fs.h>
 
-struct cyber_device device = {};
-
-/**
- * Initialize the sysfs CYBER device class
- *
- * @return zero on success, non-zero otherwise
+/*
+ * UDEV 
  */
-int cyber_device_init_device_class(void);
 
-/**
- * Shutdown the sysfs CYBER device class
+typedef struct device *device_ptr;
+typedef struct device const *const_device_ptr;
+typedef struct kobj_uevent_env *uevent_env_ptr;
+typedef struct kobj_uevent_env const *const_uevent_env_ptr;
+
+static int _handle_uevent(const_device_ptr, uevent_env_ptr environment)
+{
+	return add_uevent_var(environment, "DEVMODE=%#o", 0666);
+}
+
+/*
+ * Device Class
  */
-void cyber_device_shutdown_device_class(void);
 
-/**
- * Initialize the CYBER character device
- *
- * @return zero on success, non-zero otherwise
- */
-int cyber_device_init_character_device(void);
+typedef struct class *class_ptr;
+typedef struct class const *const_class_ptr;
+typedef struct class_attribute *attribute_ptr;
+typedef struct class_attribute const *const_attribute_ptr;
 
-/**
- * Shutdown the CYBER character device
- */
-void cyber_device_shutdown_character_device(void);
+/// Get the amount of available cyber.
+static ssize_t available_show(const_class_ptr, const_attribute_ptr, char * __user output_buffer)
+{
+	return sprintf(output_buffer, "infinite\n");
+}
 
-/**
- * Initialize the CYBER kernel device
- *
- * @return zero on success, non-zero otherwise
- */
-int cyber_device_init_kernel_device(void);
+/// Get the storage technology in use.
+static ssize_t storage_technology_show(const_class_ptr, const_attribute_ptr, char * __user output_buffer)
+{
+	return sprintf(output_buffer, "condensed di-hydrogen-monoxide\n");
+}
 
-/**
- * Shutdown the CYBER kernel device
- */
-void cyber_device_shutdown_kernel_device(void);
+static CLASS_ATTR_RO(available);
+static CLASS_ATTR_RO(storage_technology);
 
-int cyber_device_init(void)
+static int _init_device_class(cyber_device * device)
+{
+	int error = 0;
+
+	device->class.name = CLS_NAME;
+	device->class.dev_uevent = _handle_uevent;
+
+	if((error = class_register(&device->class)))
+	{
+		printk(KERN_ALERT DEV_NAME ": Failed to register CYBER device class!\n");
+		return error;
+	}
+
+	if((error = class_create_file(&device->class, &class_attr_available)) || (error = class_create_file(&device->class, &class_attr_storage_technology)))
+	{
+		printk(KERN_ALERT DEV_NAME ": Failed to register sysfs CYBER attributes!\n");
+		return error;
+	}
+
+	return 0;
+}
+
+static void _shutdown_device_class(cyber_device * device)
+{
+	class_unregister(&device->class);
+}
+
+/// Character Device
+
+typedef struct file_operations *file_operations_ptr;
+typedef struct file_operations const *const_file_operations_ptr;
+
+static int _init_character_device(cyber_device * device, const_file_operations_ptr file_ops)
+{
+	int error = 0;
+
+	if((error = alloc_chrdev_region(&device->number, 0, 1, DEV_NAME)))
+	{
+		printk(KERN_ALERT DEV_NAME ": Failed to allocate character device!\n");
+	}
+
+	cdev_init(&device->character, file_ops);
+	device->character.owner = THIS_MODULE;
+	device->character.ops = file_ops;
+
+	if((error = cdev_add(&device->character, device->number, 1)))
+	{
+		printk(KERN_ALERT DEV_NAME ": Failed to add character device (Error: %d)!\n", error);
+	}
+
+	return error;
+}
+
+static void _shutdown_character_device(cyber_device * device)
+{
+	cdev_del(&device->character);
+	unregister_chrdev_region(device->number, 1);
+}
+
+/// Kernel Device
+
+static void _close_kernel_device(struct device * device)
+{
+	printk(KERN_INFO DEV_NAME ": Closing kernel CYBER device\n");
+}
+
+static int _init_kernel_device(cyber_device * device)
+{
+	int error = 0;
+
+	device->kernel.class = &device->class;
+	device->kernel.devt = device->number;
+	device->kernel.init_name = DEV_NAME;
+	device->kernel.release = _close_kernel_device;
+
+	if((error = device_register(&device->kernel)))
+	{
+		printk(KERN_ALERT DEV_NAME ": Failed to create CYBER device!\n");
+	}
+
+	return error;
+}
+
+static void _shutdown_kernel_device(cyber_device * device)
+{
+	device_unregister(&device->kernel);
+}
+
+/// Device
+
+int cyber_device_init(cyber_device * device, const_file_operations_ptr file_ops)
 {
 	int error = 0;
 
 	printk(KERN_INFO DEV_NAME ": Initializing CYBER device\n");
 
-	if((error = cyber_device_init_character_device()))
+	if((error = _init_character_device(device, file_ops)))
 	{
 		return error;
 	}
 
-	if((error = cyber_device_init_device_class()))
+	if((error = _init_device_class(device)))
 	{
-		cyber_device_shutdown_character_device();
+		_shutdown_character_device(device);
 		return error;
 	}
 
-	if((error = cyber_device_init_kernel_device()))
+	if((error = _init_kernel_device(device)))
 	{
-		cyber_device_shutdown_character_device();
-		cyber_device_shutdown_device_class();
+		_shutdown_character_device(device);
+		_shutdown_device_class(device);
 		return error;
 	}
 
-	printk(KERN_INFO DEV_NAME ": New CYBER device with major %d minor %d\n", MAJOR(device.number), MINOR(device.number));
+	printk(KERN_INFO DEV_NAME ": New CYBER device with major %d minor %d\n", MAJOR(device->number), MINOR(device->number));
 	return error;
 }
 
-void cyber_device_shutdown(void)
+void cyber_device_shutdown(cyber_device * device)
 {
 	printk(KERN_INFO DEV_NAME ": Shutting down CYBER device\n");
-	cyber_device_shutdown_kernel_device();
-	cyber_device_shutdown_device_class();
-	cyber_device_shutdown_character_device();
+	_shutdown_kernel_device(device);
+	_shutdown_device_class(device);
+	_shutdown_character_device(device);
 }
 
 void cyber_device_release(struct device * device)

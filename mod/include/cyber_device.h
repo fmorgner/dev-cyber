@@ -25,7 +25,7 @@
 /**
  * This structure holds information about the CYBER device
  */
-extern struct cyber_device
+typedef struct
 {
 	/**
 	 * The kernel character device structure
@@ -47,16 +47,21 @@ extern struct cyber_device
 	 */
 	dev_t number;
 
-} device;
+	/**
+	 * Cyber space!
+	 */
+	char * space;
+
+} cyber_device;
 
 /**
  * Initialize the CYBER device
  */
-int cyber_device_init(void);
+int cyber_device_init(cyber_device * device, struct file_operations const * file_ops);
 
 /**
  * Deinitialize the CYBER device
  */
-void cyber_device_shutdown(void);
+void cyber_device_shutdown(cyber_device * device);
 
 #endif
